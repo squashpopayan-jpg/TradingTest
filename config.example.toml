@@ -1,0 +1,47 @@
+# Copia este archivo como config.toml y completa tus datos.
+# config.toml está en .gitignore: tus claves no se suben a GitHub.
+
+[mt5]
+path = ""        # ruta a terminal64.exe; vacío = usa la terminal MT5 que ya tienes abierta
+login = 0        # 0 = usa la cuenta con la que ya iniciaste sesión en la terminal
+password = ""    # o variable de entorno MT5_PASSWORD
+server = ""
+
+[telegram]
+token = ""       # el token de tu bot (de @BotFather), o variable de entorno TELEGRAM_TOKEN
+chat_id = ""     # tu chat_id; si lo dejas vacío el bot te lo dice al escribirle
+
+[general]
+source = "mt5"   # mt5 = cuenta real/demo en vivo · csv = archivos exportados · demo = datos simulados
+csv_dir = "datos"
+# Usa el nombre EXACTO de tu bróker (mira "Observación del mercado"): XAUUSD, XAUUSDm, GOLD...
+symbols = ["XAUUSD", "EURUSD", "GBPUSD", "USDJPY"]
+timeframe = "M15"          # M1 M5 M15 M30 H1 H4 D1
+# Velas de historial para calcular probabilidades (20000 en M15 ≈ 10 meses). Con menos, el %
+# se aprende el ruido reciente. Si MT5 da menos velas: Herramientas > Opciones > Gráficos >
+# "Máx. barras en el gráfico" (súbelo a 100000 o más).
+history_bars = 20000
+utc_offset_hours = "auto"  # diferencia hora del servidor - UTC; "auto" la detecta con MT5 abierto
+default_utc_offset_hours = 2
+scan_interval_sec = 30
+notify_colors = ["VERDE", "AMARILLO"]   # qué colores te llegan como aviso automático
+journal_file = "registro_senales.csv"
+
+[strategy]
+# SL/TP por defecto del escáner y de "/evaluar SIMBOLO compra" sin niveles
+sl_atr = 1.5
+rr = 1.5
+signal_lookback_bars = 1
+
+[semaforo]
+ev_green = 0.20          # VERDE si se espera ganar al menos 0.20 veces lo arriesgado por operación
+min_samples = 40         # mínimo de situaciones parecidas en el historial para dar VERDE
+score_tolerance = 10
+max_trade_bars = 96      # en M15, 96 velas = 1 día
+min_gap_bars = 4
+prior_strength = 30.0
+confidence_z = 1.645
+max_spread_to_sl = 0.20  # ROJO si el spread se come más del 20 % del stop
+
+[risk]
+risk_pct = 1.0           # % del balance que arriesgas por operación (para el lote sugerido)
