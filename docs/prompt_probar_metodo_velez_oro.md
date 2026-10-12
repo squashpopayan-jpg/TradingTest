@@ -9,7 +9,7 @@
 5. **Primer mensaje:** `Lee PROMPT_VELEZ.md y síguelo al pie de la letra. Empieza por el Paso 0.`
 6. **Permisos:** Claude Code te pedirá permiso antes de ejecutar comandos. Esa es tu principal protección: léelos. Responde **NO** si ves `order_send`, `login`, `git push`, `taskkill`, `pip install` fuera de `.venv`, `config.toml`, o algo que no entiendas (pregúntale "¿qué hace esto?"). No actives ninguna opción que apruebe todo automáticamente.
 7. **Para detenerlo:** pulsa `Esc`.
-8. **Privacidad:** todo lo que la IA lee se envía a los servidores de Anthropic. Por eso el prompt le prohíbe abrir tus archivos con claves.
+8. **Privacidad:** todo lo que la IA lee se envía a los servidores de Anthropic. Por eso el prompt le prohíbe abrir tus archivos con claves. Para las transcripciones de YouTube **no necesitas dar tu cuenta**: desde la conexión de tu casa se descargan sin iniciar sesión. Nunca le des a una IA tu contraseña ni tus cookies de Google.
 9. **Va a tomar varias sesiones.** Para retomar, abre PowerShell en la carpeta y escribe `claude --continue`. O, en una sesión nueva, escribe: `Lee investigacion_velez/BITACORA.md y PROMPT_VELEZ.md y continúa desde donde quedaste.`
 10. **Ten a mano:** la comisión por lote del oro en tu cuenta (si la sabes), tu balance aproximado y el lote que sueles usar.
 
@@ -54,6 +54,10 @@ vale tanto como un "sí".
     [T] = de terceros (cita la fuente), o [N] = decisión nuestra.
   * Por eso, el veredicto será sobre ESTAS reglas programadas, no sobre la parte discrecional que
     él enseña.
+  * SÍ hay fuente primaria disponible: su "Curso de Análisis Técnico" (8 partes) y su serie "Trade
+    the Open Like a Boss" en YouTube. En el Paso 0B descargarás sus transcripciones y extraerás de
+    ahí las reglas con sus propias palabras. Esas reglas se marcan [V] (Velez, con video y minuto) y
+    tienen prioridad sobre las [T] y [N] de este prompt.
 
 # Reglas de seguridad (NO negociables)
 1. PROHIBIDO OPERAR. Lista BLANCA: lo único que puedes llamar de MetaTrader5 es
@@ -80,7 +84,9 @@ vale tanto como un "sí".
    d) De history_deals_get() muestra solo totales: la comisión por lote y cuántas operaciones usaste
       para calcularla. Nunca operaciones sueltas, tickets ni ganancias.
    e) Nada sale de este PC: ni git push, ni gists, ni subidas a webs o APIs, ni mensajes con mi bot
-      de Telegram.
+      de Telegram. Única descarga de internet permitida: las transcripciones de YouTube del Paso 0B,
+      con youtube-transcript-api y SIN iniciar sesión. Nunca me pidas mi cuenta, contraseña ni
+      cookies de Google/YouTube.
 3. No modifiques nada fuera de investigacion_velez/. No ejecutes, arranques ni importes módulos de
    mi app que inicien el bot, el escáner o Telegram, y tampoco ejecutes los .bat de arranque. Un
    segundo proceso con el mismo token de Telegram rompe el bot en vivo. Si quieres reutilizar una
@@ -91,7 +97,8 @@ vale tanto como un "sí".
    rebase, reset, stash y checkout a otras ramas. Crea investigacion_velez/.gitignore con datos/,
    resultados/ y .venv/.
 4. Crea un entorno virtual propio: `python -m venv investigacion_velez\.venv`. Instala ahí numpy,
-   pandas, matplotlib, scipy, tzdata, pytest y MetaTrader5 (pyarrow es opcional). NUNCA instales
+   pandas, matplotlib, scipy, tzdata, pytest, MetaTrader5 y youtube-transcript-api (pyarrow es
+   opcional). NUNCA instales
    ni actualices paquetes en el Python que usa mi bot. Para cualquier otro paquete pídeme permiso
    y dime en una frase para qué sirve.
 5. Procesos:
@@ -107,6 +114,7 @@ vale tanto como un "sí".
 - En cada PC te detienes, me muestras lo pedido en español sencillo (máximo 15 líneas) y ESPERAS a
   que escriba "OK, sigue". Entre un PC y otro trabajas sin preguntarme. Los puntos de control son:
   * PC1, fin del Paso 0: datos del símbolo, horario, comisión, spread y plan.
+  * PC1B, fin del Paso 0B: ficha de reglas sacadas de las transcripciones de Velez.
   * PC2, fin del Paso 1: historia disponible, horario verificado y viabilidad.
   * PC3, antes de calcular cualquier resultado: tests pasando y ejemplos de cada setup para que yo
     los revise en mi gráfico.
@@ -135,7 +143,7 @@ vale tanto como un "sí".
 
 # Fases
 - FASE 1 (mínimo viable):
-  * Paso 0.
+  * Paso 0 y Paso 0B (transcripciones y ficha de reglas).
   * Datos de M1, M5 y M15.
   * Indicadores, S1, S2, S4 y E1, con sus tests.
   * PC3 y PC4.
@@ -204,6 +212,56 @@ construyas el backtest.
 8. Muéstrame un plan corto.
 → PC1.
 
+# Paso 0B — Transcripciones de Velez (fuente primaria)
+1. Con youtube-transcript-api (dentro de .venv y SIN iniciar sesión) descarga las transcripciones de
+   estos videos. Pide primero el idioma original del audio (inglés en @OliverVelezTrading, español
+   en el canal en español) y, si no existe, el que haya. Guarda cada una en
+   investigacion_velez/transcripciones/<ID>.txt con el título, la URL y marcas de minuto.
+   Curso de Análisis Técnico:
+     a373O-g99iQ  Parte 1 // La Poderosa Barra del Elefante
+     -KBwT9bG6EU  Part 2 // Putting The Odds In Your Favour
+     oTZpGco0glA  Part 3 // The Powerful Bull And Bear 180
+     pqY5Rh7_Yx0  Parte 4 // Las medias móviles
+     TgEJyRax0oY  Parte 5 // Ubicaciones y estados de trading
+     3AFTTdeQGO8  Parte 6 // Ejemplos de trading en largo
+     U5OAXnM_sV4  Parte 7 // Ejemplos de trading en corto
+     JRYxgF47i94  Parte final
+   Trade the Open Like a Boss (partes 1 a 12):
+     DNBHykyaPzY YMgSADf-iig eka4l-tLyqE R1kapvSlN0U wSX-Ia_Nh_A 6vglvq9Xc9Y
+     Qn4h83mBXXM B99hAu5fQG8 cTARRHOflEM WzrT6CsZrbA ROS3rgsoofI CtmQs3nG8P4
+   Videos con cifras o reglas concretas:
+     ylfWhJlA3wI  Gana 9 de cada 10 operaciones (Toro 180)          → el "90 %"
+     D-_OUuxwEl8  Predecir el siguiente movimiento con un 84 %      → el "84 %"
+     w7QbBubxCG4  La regla del 87 % de continuación                 → el "87 %"
+     ye8gK7fh314  88 % de éxito, jugada "crash into support"         → el "88 %"
+     5V-9Tg7X3pg  Mi sistema completo de gestión de operaciones
+     5Lq2ceN0MgY  La guía completa de las medias móviles
+     -kxuBqoAxcQ  Señal de SMA de 20, 50 y 200
+     5gRIfh5rhOo  Cuando esto pase, ignora la SMA de 200
+     BEETndVHxgo  La señal de la SMA 200 plana
+     DRKia8MzwLo  La regla de la SMA 20 que acelera tu trading
+     Aea_oxMtW4A  La señal de reversión n.° 1
+   Si YouTube bloquea la descarga (raro desde una conexión de casa), dime qué IDs fallaron. Yo puedo
+   abrir cada video, tocar "Mostrar transcripción" y pegarte el texto.
+2. Lee las transcripciones y escribe investigacion_velez/FICHA_REGLAS.md. Para cada concepto (vela
+   elefante, Bull/Bear 180, medias 20/200 y estados, ubicaciones, colas, RBI/GBI, entradas, stops,
+   parciales, trailing, horario, y qué miden el 84/87/88/90 %), incluye:
+   - la regla tal como la dice Velez, con CITA TEXTUAL corta, ID del video y minuto;
+   - si da números (tamaño de la vela elefante, cuánto cuerpo, cuántas velas de retroceso,
+     dónde va el stop, cuándo toma ganancias), cítalos exactamente;
+   - qué queda discrecional o solo se ve en el gráfico (no lo inventes);
+   - dónde coincide y dónde contradice las reglas [T]/[N] del Paso 2.
+   Cuidado: las transcripciones automáticas cometen errores ("20" por "200", "eight" por "a").
+   Si una frase clave es dudosa, márcala y pregúntame el minuto para que yo lo escuche.
+3. Ajuste ANTES de ver cualquier resultado:
+   - Si una regla [V] es clara y numérica, reemplaza a la [T]/[N] equivalente en S1, S2-A y S4
+     (siguen siendo exactamente 6 pruebas principales). La versión anterior pasa a exploratoria.
+   - Si las transcripciones dejan claro qué miden el 84, 87 u 88 %, prográmalo como prueba de
+     verificación del Paso 3.7.
+   - Si Velez describe un setup que es claramente su favorito y no está en este prompt, agrégalo
+     como EXPLORATORIO. No cambia las 6 principales.
+→ PC1B: muéstrame la ficha resumida (qué cambia respecto al Paso 2 y por qué) y espera mi OK.
+
 # Paso 1 — Datos
 1. ANTES de descargar, pídeme que ponga "Máx. barras en el gráfico" en "Ilimitado" (Ctrl+O, pestaña
    Gráficos) y que reinicie MetaTrader 5. Avísame de que mi bot perderá la conexión durante el
@@ -259,6 +317,8 @@ construyas el backtest.
 # Paso 2 — El método en reglas exactas
 Notación: t = última vela CERRADA. La orden se coloca para la vela t+1. Todo se calcula con los
 precios BID del gráfico.
+Estas son las reglas por defecto. Donde la FICHA_REGLAS.md del Paso 0B tenga una regla [V] clara,
+manda la [V] (decidido en el PC1B, antes de ver resultados).
 
 ## Indicadores (solo con velas cerradas)
 - SMA20, SMA200 y SMA50 del cierre (SIMPLES, no exponenciales). La SMA50 se usa solo en una
@@ -483,8 +543,9 @@ S8 — Rebote en la SMA200 (EXPLORATORIA; inspirada en títulos de sus videos, n
    - 90 % del Toro/Bull 180: para S2 (variantes A y B) mide P(tocar +1R antes que −1R) y también
      P(la operación con E1 cierra con R neto > 0), junto a las mismas métricas de la línea base
      aleatoria.
-   - 84 %, 87 % y 88 %: NO supongas qué miden. Pregúntame; yo puedo ver los videos y darte la regla.
-     Si no te la doy, repórtalas como "no verificables".
+   - 84 %, 87 % y 88 %: mide solo lo que las transcripciones (Paso 0B) definan con claridad, con
+     cita y minuto, y comparado contra la tasa base. Si la definición no está clara, NO supongas:
+     pregúntame. Si sigue sin estar clara, repórtalas como "no verificables".
 8. Pruebas de estrés (en las principales, después del veredicto base):
    - spread × 1.5;
    - deslizamiento de 0.1 × ATR;
